@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Stack;
 import java.lang.Math;
 //Curves assignement starts at line 413
 //3d assignment starts at line 513
@@ -13,6 +14,7 @@ public class Grafix{
     private Pixel[][] data;
     private LinkedList<PointList> edges;
     private LinkedList<Coor[]> triangles;
+    private Stack<double[][]> relativities;
     public double[][] transformation;
     public Grafix(int width, int height){
 	setWidth(width);
@@ -21,6 +23,8 @@ public class Grafix{
 	resetPixels();
 	edges = new LinkedList<PointList>();
 	triangles = new LinkedList<Coor[]>();
+	relativities = new Stack();
+	relativities.push(makeIdentityMatrix());
 	setIdentityMatrix();
     }
     public Grafix(){
@@ -721,6 +725,13 @@ public class Grafix{
 	addTriangle(new Coor(x0, y0, z0), new Coor(x1, y1, z1), new Coor(x2, y2, z2));
     }
     //Write function copies the pixels to image file
+    //Assisnment Eight Coordinate Systems
+    public void push(){
+	relativities.push(relativities.peek());
+    }
+    public void pop(){
+	relativities.pop();
+    }
     public void write(String name){
 	try{
 	    File f = new File(name);
