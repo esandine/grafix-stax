@@ -78,7 +78,13 @@ public class Parser{
 		}else if(command.equals("triangle")){
                     args = new Scanner(s.nextLine());
                     g.addTriangle(args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble(),args.nextDouble());
-		}
+		}else if(command.equals("push")){
+		    g.push();
+        	}
+		else if(command.equals("pop")){
+		    g.pop();
+        	}
+
 
 	    }
 	}catch(FileNotFoundException e){

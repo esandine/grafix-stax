@@ -15,7 +15,6 @@ public class Grafix{
     private LinkedList<PointList> edges;
     private LinkedList<Coor[]> triangles;
     private Stack<double[][]> relativities;
-    public double[][] transformation;
     public Grafix(int width, int height){
 	setWidth(width);
 	setHeight(height);
@@ -267,9 +266,9 @@ public class Grafix{
 	    p.getCoor();
 	}
     }
-    //writeCoors uses th einstructions to draw an image
+    //writeCoors uses th einstructions to drawan image
     public void writeCoors(Pixel color){
-	resetPixels();
+	applyTransformation();
 	int i = edges.size();
 	PointList edge;
 	while(i>0){
@@ -290,6 +289,8 @@ public class Grafix{
 	    }
 	    i--;
 	}
+	edges = new LinkedList<PointList>();
+	triangles = new LinkedList<Coor[]>();
     }
 
     //Matrix functions
@@ -331,9 +332,10 @@ public class Grafix{
 	return ret;
     }
 
-    //setIdentityMatrix resets the transformation matrix
+    //setIdentityMatrix resets the relativities.peek() matrix
     public void setIdentityMatrix(){
-	transformation = makeIdentityMatrix();
+	relativities.pop();
+	relativities.push(makeIdentityMatrix());
     }
 
     //makeTranslationMatrix makes a translation matrix
@@ -400,7 +402,8 @@ public class Grafix{
 	return ret;
     }
     public void multTransformation(double[][] newMatrix){
-	transformation = multMatrices(newMatrix, transformation);
+	double[][] newTrans = multMatrices(newMatrix, relativities.peek());
+	relativities.push(newTrans);
     }
     //displays a matrix
     public void displayMatrix(double[][] mat){
@@ -414,13 +417,13 @@ public class Grafix{
 
     //displays the transformation matrix
     public void displayTransformation(){
-	displayMatrix(transformation);
+	displayMatrix(relativities.peek());
     }
     //multipies edgelist by transformation matrix
     //theres no way this long function works
     //it didn't on the first try but I tihnk it works now
     public void applyTransformation(){
-	double[][] mat  = transformation;
+	double[][] mat  = relativities.peek();
 	PointList points;
 	Coor[] verts;
 	Coor point;
