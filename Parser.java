@@ -31,11 +31,9 @@ public class Parser{
 		    line[1] = new Coor(args.nextDouble(), args.nextDouble(), args.nextDouble());
 		    g.addEdge(line);
 		}else if(command.equals("save")){
-		    g.writeCoors(p);
 		    g.write("test.ppm");		    
 		    runCMD("convert test.ppm "+s.nextLine());
 		}else if(command.equals("display")){
-		    g.writeCoors(p);
 		    g.write("test.ppm");
 		    runCMD("display test.ppm");
 		}else if(command.equals("ident")){
@@ -84,6 +82,9 @@ public class Parser{
 		else if(command.equals("pop")){
 		    g.pop();
         	}
+		else if(command.equals("printtrans")){
+		    g.displayTransformation();
+		}
 
 
 	    }

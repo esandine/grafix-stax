@@ -15,6 +15,7 @@ public class Grafix{
     private LinkedList<PointList> edges;
     private LinkedList<Coor[]> triangles;
     private Stack<double[][]> relativities;
+    private Pixel drawcolor;
     public Grafix(int width, int height){
 	setWidth(width);
 	setHeight(height);
@@ -25,6 +26,7 @@ public class Grafix{
 	relativities = new Stack();
 	relativities.push(makeIdentityMatrix());
 	setIdentityMatrix();
+	drawcolor = new Pixel(200, 0 ,0);
     }
     public Grafix(){
 	this(500,500);
@@ -402,7 +404,7 @@ public class Grafix{
 	return ret;
     }
     public void multTransformation(double[][] newMatrix){
-	double[][] newTrans = multMatrices(newMatrix, relativities.peek());
+	double[][] newTrans = multMatrices(newMatrix, relativities.pop());
 	relativities.push(newTrans);
     }
     //displays a matrix
@@ -610,7 +612,7 @@ public class Grafix{
 	addTriangle(A, C, G);
 	addTriangle(G, E, A);
 
-       
+	writeCoors(drawcolor);
     }
     public void addSphere(double cx, double cy, double cz, double r, int steps){
 	LinkedList<Coor> sphere = new LinkedList<Coor>();
@@ -658,6 +660,7 @@ public class Grafix{
 		sphere3.add(v3);
 		sphere4.add(v4);
 	}
+	writeCoors(drawcolor);
     }
     public void addTorus(double cx, double cy, double cz, double r1, double r2, int steps){
         LinkedList<Coor> torus = new LinkedList<Coor>();
@@ -702,7 +705,7 @@ public class Grafix{
 		torus3.add(v3);
 		torus4.add(v4);
         }
-	
+	writeCoors(drawcolor);
     }
     public boolean checkCull(Coor[] tri){
 	double v1x = tri[1].getX()-tri[0].getX();
